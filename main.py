@@ -1,5 +1,5 @@
-def tax_calculator(money):
-	print(money * 0.35)
+def say_hello(user_name="anonymous"):
+	print("hello", user_name)
 	
-tax_calculator(1500000)
-tax_calculator(150)
+say_hello("nico")
+say_hello()
