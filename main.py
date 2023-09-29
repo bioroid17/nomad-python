@@ -1,7 +1,5 @@
-# my_name = nico	# error
-my_name = "nico"	# text
-my_name = "1234"	# text
-my_name = 1234		# number
-my_name = True		# boolean
-my_name = False		# boolean
-my_name = "True"	# text
+my_name = "Lee"
+age = 20
+dead = False
+print("Hello my name is", my_name)
+print("and I'm", age, " years old")
