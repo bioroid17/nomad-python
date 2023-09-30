@@ -1,26 +1,7 @@
-def add(a=0, b=0):
-    print(a + b)
+def tax_calc(money):
+	return money * 0.35
 
-def subtract(a=0, b=0):
-    print(a - b)
+def pay_tax(tax):
+	print("thank you for paying", tax)
 
-def multiply(a=0, b=0):
-    print(a * b)
-
-def divide(a=0, b=1):
-    print(a / b)
-
-def power(a=0, b=1):
-    print(a ** b)
-
-add(55, 34)
-subtract(16, 21)
-multiply(6, 4)
-divide(4, 3)
-power(3, 3)
-
-add()
-subtract()
-multiply()
-divide()
-power()
+pay_tax(tax_calc(15000))
