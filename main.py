@@ -1,3 +1,4 @@
+"""
 from random import randint, uniform
 
 user_choice = int(input("Choose number."))
@@ -9,3 +10,10 @@ elif user_choice > pc_choice:
 	print("Lower! Computer chose", pc_choice)
 elif user_choice < pc_choice:
 	print("Higher! Computer chose", pc_choice)
+"""
+
+distance = 0
+
+while distance < 20:
+	print("I'm running:", distance, "km")
+	distance = distance + 1
