@@ -1,3 +1,5 @@
+from requests import get
+
 websites = (
     "google.com",
     "airbnb.com",
