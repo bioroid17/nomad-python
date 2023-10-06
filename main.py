@@ -1,10 +1,12 @@
 websites = (
     "google.com",
     "airbnb.com",
-    "twitter.com",
+    "https://twitter.com",
     "facebook.com",
-    "tiktok.com"
+    "https://tiktok.com"
 )
 
 for website in websites:
-    print("potato is equals to", website)
+    if not website.startswith("https://"):
+        website = f"https://{website}"
+    print(website)
