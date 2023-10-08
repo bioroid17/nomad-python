@@ -15,4 +15,9 @@ browser = webdriver.Chrome(service=Service(
     ChromeDriverManager().install()), options=chrome_options)
 browser.get(f"{base_url}{search_term}")
 
-print(browser.page_source)
+soup = BeautifulSoup(browser.page_source, "html.parser")
+job_list = soup.find("ul", class_="css-zu9cdh")
+jobs = job_list.find_all("li", recursive=False)
+for job in jobs:
+    print(job)
+    print("///////////////////")
