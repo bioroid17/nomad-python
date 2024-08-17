@@ -12,6 +12,8 @@ soup = BeautifulSoup(
 
 jobs = soup.find("section", class_="jobs").find_all("li")[1:-1]
 
+all_jobs = []
+
 for job in jobs:
     title = job.find("span", class_="title").text
     try:
@@ -23,7 +25,16 @@ for job in jobs:
         company, position, _ = job.find_all("span", class_="company")
     except ValueError:
         company, position = job.find_all("span", class_="company")
-
     company = company.text
     position = position.text
-    print(title, company, position, region, "----------\n")
+    url = job.find("div", class_="tooltip--flag-logo").next_sibling["href"]
+    job_data = {
+        "title": title,
+        "company": company,
+        "position": position,
+        "region": region,
+        "url": f"https://weworkremotely.com{url}",
+    }
+    all_jobs.append(job_data)
+
+print(all_jobs)
