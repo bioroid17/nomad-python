@@ -1,50 +1,47 @@
 import requests
 from bs4 import BeautifulSoup
 
+
+class Job:
+    def __init__(self, url, company, location, salary) -> None:
+        self.url = url
+        self.company = company
+        self.location = location
+        self.salary = salary
+
+    def __str__(self) -> str:
+        return f"URL: {self.url}\nCompany: {self.company}\nLocation: {self.location}\nSalary:{self.salary}\n"
+
+
+keywords = ["flutter", "python", "golang"]
 all_jobs = []
-
-
-def scrape_page(url):
-    print(f"Scrapping {url}")
-    response = requests.get(url)
-    soup = BeautifulSoup(
-        response.content,
-        "html.parser",
+for keyword in keywords:
+    response = requests.get(
+        f"https://remoteok.com/remote-{keyword}-jobs",
+        headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+        },
     )
-    jobs = soup.find("section", class_="jobs").find_all("li")[1:-1]
-    for job in jobs:
-        title = job.find("span", class_="title").text
-        try:
-            region = job.find("span", class_="region").text
-        except AttributeError:
-            region = "No Region"
-
-        try:
-            company, position, _ = job.find_all("span", class_="company")
-        except ValueError:
-            company, position = job.find_all("span", class_="company")
-        company = company.text
-        position = position.text
-        url = job.find("div", class_="tooltip--flag-logo").next_sibling["href"]
-        job_data = {
-            "title": title,
-            "company": company,
-            "position": position,
-            "region": region,
-            "url": f"https://weworkremotely.com{url}",
-        }
-        all_jobs.append(job_data)
-
-
-def get_pages(url):
-    response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    return len(soup.find("div", class_="pagination").find_all("span", class_="page"))
+    jobs = soup.find_all("tr", class_="job")
 
+    keyword_jobs = []
+    for job in jobs:
+        url = f"https://remoteok.com{job['data-url']}"
+        company = job["data-company"]
+        try:
+            location = job.find("div", class_="tooltip").text
+        except AttributeError:
+            location = "Unknown"
+        try:
+            salary = job.find("div", class_="tooltip-set").text
+        except AttributeError:
+            salary = "Unknown"
+        keyword_jobs.append(Job(url, company, location, salary))
+    all_jobs.append({keyword: keyword_jobs})
 
-total_pages = get_pages("https://weworkremotely.com/remote-full-time-jobs?page=1")
-for x in range(total_pages):
-    url = f"https://weworkremotely.com/remote-full-time-jobs?page={x+1}"
-    scrape_page(url)
-
-print(len(all_jobs))
+for d in all_jobs:
+    for key, value in d.items():
+        print(f"================={key}=================")
+        for job in value:
+            print(job)
